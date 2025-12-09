@@ -1,0 +1,175 @@
+/* style.css */
+
+/* FONT IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* GLOBAL STYLES */
+body {
+    font-family: 'Inter', sans-serif;
+    /* Latar belakang terang yang bersih */
+    background-color: #f7f7f7; 
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    position: relative; 
+}
+
+/* ============================================== */
+/* MORPHING COLOR BLOB BACKGROUND (Glassmorphism Friendly) */
+/* ============================================== */
+
+/* Keyframes untuk Gerakan Blobs */
+@keyframes morph-float-1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(20vw, 15vh) rotate(60deg); }
+    66% { transform: translate(-10vw, -10vh) rotate(-30deg); }
+}
+@keyframes morph-float-2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    40% { transform: translate(-15vw, 20vh) rotate(45deg); }
+    80% { transform: translate(10vw, -5vh) rotate(-15deg); }
+}
+@keyframes morph-float-3 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    55% { transform: translate(5vw, -25vh) rotate(30deg); }
+}
+
+#blob-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Di belakang konten utama */
+    filter: blur(150px); 
+    -webkit-filter: blur(150px);
+    opacity: 0.8;
+    overflow: hidden; 
+}
+
+.color-blob {
+    position: absolute;
+    border-radius: 50%; 
+    transition: all 0.5s ease-in-out;
+}
+
+#blob-1 {
+    width: 500px; height: 500px;
+    background: #00b7ff; /* Biru muda */
+    top: -100px; left: -100px;
+    animation: morph-float-1 14s infinite alternate ease-in-out;
+}
+
+#blob-2 {
+    width: 400px; height: 400px;
+    background: #ff9900; /* Ungu/Magenta */
+    top: 40vh; right: -50px;
+    animation: morph-float-2 18s infinite alternate-reverse ease-in-out;
+}
+
+#blob-3 {
+    width: 600px; height: 600px;
+    background: #0026ff; /* Ungu kebiruan */
+    bottom: -200px; left: 10vw;
+    animation: morph-float-3 12s infinite alternate ease-in-out;
+}
+
+/* Noise Overlay (Untuk memberikan tekstur film) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* SVG Noise Pattern (di-encode) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    z-index: 2; /* Di atas blobs, di bawah konten */
+    pointer-events: none; /* Agar tidak menghalangi klik */
+}
+
+/* ============================================== */
+/* GLASSCARD STYLES */
+/* ============================================== */
+
+.glass-card {
+    position: relative; 
+    z-index: 10; /* Di atas background blobs dan noise */
+    background-color: rgba(255, 255, 255, 0.555); /* Latar belakang semi-transparan putih */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.18); 
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.17); 
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+.glass-card:hover {
+    box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.25);
+    transform: translateY(-2px); /* Efek melayang ringan */
+}
+
+/* ============================================== */
+/* UTILITIES & ANIMATIONS */
+/* ============================================== */
+
+/* Custom Scrollbar Styling (Webkit) */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+::-webkit-scrollbar-track { background: #f0f0f0; }
+
+/* Work Experience Timeline Pulse */
+.timeline-dot {
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* Typing text Effect */
+.typing-text {
+    color: #0061ff;
+}
+
+/* Typing Effect Cursor */
+.typing-text-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.7em;
+    margin-left: 5px;
+    background-color: #0061ff;
+    animation: blink 0.7s infinite;
+}
+
+.text-shadow-zlen {
+    /* (horizontal offset) (vertical offset) (blur radius) (color) */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.233); 
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Scroll Reveal Base State */
+[data-scroll-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+/* Scroll Reveal Active State */
+[data-scroll-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Scroll Reveal Delays (dikelola oleh JavaScript) */
+[data-scroll-reveal="delay-1"].revealed { transition-delay: 0.1s; }
+[data-scroll-reveal="delay-2"].revealed { transition-delay: 0.2s; }
+[data-scroll-reveal="delay-3"].revealed { transition-delay: 0.3s; }
+
+
